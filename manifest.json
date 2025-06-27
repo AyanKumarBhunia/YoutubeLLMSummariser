@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "LeetCodeAIMentor",
+  "name": "LeetCodeLLMMentor",
   "version": "1.0",
   "description": "Analyze your LeetCode problems and get relevant background knowledge.",
   "permissions": [
@@ -10,7 +10,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "LeetCodeAIMentor"
+    "default_title": "LeetCodeLLMMentor"
   },
   "background": {
     "service_worker": "background.js"

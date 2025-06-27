@@ -1,4 +1,4 @@
-# LeetCodeAIMentor
+# LeetCodeLLMMentor
 
 A Chrome extension that analyzes LeetCode problems and your code attempts, providing background knowledge and code analysis using a local LLM (Ollama) via a Python proxy. All processing is local and private.
 
@@ -45,7 +45,7 @@ A Chrome extension that analyzes LeetCode problems and your code attempts, provi
 
 ## Usage
 1. **Open a LeetCode problem page.**
-2. Click the LeetCodeAIMentor extension icon.
+2. Click the LeetCodeLLMMentor extension icon.
 3. Click **Analyse Your Solution**.
 4. The extension will extract the problem and code, save a JSON, and open a full-page UI.
 5. The full-page UI will call your local LLM (via the Python proxy) and display a markdown-formatted analysis and hints.
