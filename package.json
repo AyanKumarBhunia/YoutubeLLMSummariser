@@ -1,0 +1,35 @@
+{
+  "name": "LeetCodeAIMentor",
+  "version": "1.0.0",
+  "description": "A Chrome extension that analyzes LeetCode problems and provides AI-powered mentoring",
+  "main": "manifest.json",
+  "scripts": {
+    "build": "echo 'Extension built successfully'",
+    "test": "echo 'No tests specified'",
+    "dev": "echo 'Open chrome://extensions/ and load unpacked extension'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "leetcode",
+    "ai-mentor",
+    "browser-extension"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/LeetCodeAIMentor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/LeetCodeAIMentor/issues"
+  },
+  "homepage": "https://github.com/yourusername/LeetCodeAIMentor#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}

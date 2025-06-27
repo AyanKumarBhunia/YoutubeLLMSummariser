@@ -1,0 +1,335 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+}
+
+.container {
+    width: 800px !important;
+    min-height: 600px !important;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 32px 24px 24px 24px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.header p {
+    font-size: 16px;
+    opacity: 0.95;
+}
+
+.controls {
+    padding: 32px 20px 20px 20px;
+    text-align: center;
+}
+
+.leetcode-btn {
+    background: linear-gradient(135deg, #2196f3 0%, #1e88e5 100%);
+    color: white;
+    border: none;
+    padding: 18px 36px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 auto;
+}
+
+.leetcode-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.leetcode-btn:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 24px;
+}
+
+.result {
+    padding: 20px;
+}
+
+.image-container {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#capturedImage {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.info-container {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.info-container h3 {
+    margin-bottom: 12px;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.info-grid {
+    display: grid;
+    gap: 8px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.label {
+    font-weight: 500;
+    color: #666;
+}
+
+.value {
+    font-weight: 600;
+    color: #333;
+}
+
+.download-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 auto;
+}
+
+.download-btn:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.output-area {
+    background: #f8fafc;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(33, 150, 243, 0.08);
+    padding: 36px 40px;
+    margin: 32px auto 0 auto;
+    font-size: 20px;
+    color: #222;
+    line-height: 1.8;
+    max-width: 1100px;
+    min-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+    font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+.output-area h1, .output-area h2, .output-area h3 {
+    color: #1e88e5;
+    margin-top: 1.5em;
+}
+
+.output-area code, .output-area pre {
+    background: #eaf3fa;
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', monospace;
+    font-size: 17px;
+}
+
+.output-area pre {
+    padding: 12px;
+    margin: 18px 0;
+    overflow-x: auto;
+}
+
+.output-area ul, .output-area ol {
+    margin-left: 2em;
+    margin-bottom: 1em;
+}
+
+.copy-btn {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 24px;
+    margin-bottom: 10px;
+}
+
+.copy-btn:hover {
+    background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+    box-shadow: 0 2px 8px rgba(67, 233, 123, 0.15);
+}
+
+.output-area strong, .output-area .section-title {
+    font-weight: 700;
+    color: #1e88e5;
+    font-size: 20px;
+    margin-top: 18px;
+    display: block;
+}
+
+.output-area .hint, .output-area .background {
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', monospace;
+    background: #eaf3fa;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 10px 0;
+    display: block;
+    font-size: 16px;
+}
+
+.output-area .divider {
+    border: none;
+    border-top: 2px solid #d1e3f8;
+    margin: 18px 0;
+}
+
+.output-area.hidden {
+    display: none;
+}
+
+.loading {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading p {
+    color: #666;
+    font-size: 16px;
+}
+
+.error {
+    padding: 20px;
+    text-align: center;
+    background: #f8d7da;
+    color: #721c24;
+    border-radius: 8px;
+    margin: 20px;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 950px) {
+    .container {
+        width: 100% !important;
+        border-radius: 0;
+    }
+    .output-area {
+        width: 98%;
+        padding: 20px 6px;
+        font-size: 18px;
+    }
+}
+
+.fullpage-btn {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px auto 0 auto;
+}
+
+.fullpage-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 233, 123, 0.2);
+}
+
+.fullpage-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 1200px) {
+    .output-area {
+        max-width: 98vw;
+        padding: 18px 8px;
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 700px) {
+    .output-area {
+        max-width: 100vw;
+        padding: 8px 2px;
+        font-size: 15px;
+    }
+    .header h1 {
+        font-size: 22px;
+    }
+    .leetcode-btn {
+        font-size: 16px;
+        padding: 12px 10px;
+    }
+} 
