@@ -1,3 +1,5 @@
+![LeetCodeLLMMentor Screenshot](image.png)
+
 # LeetCodeLLMMentor
 
 A Chrome extension that analyzes LeetCode problems and your code attempts, providing background knowledge and code analysis using a local LLM (Ollama) via a Python proxy. All processing is local and private.
