@@ -1,136 +1,143 @@
-// Content script for screen capture
+// Content script for YouTube video extraction
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'captureScreen') {
-        captureScreen()
-            .then(imageData => {
-                sendResponse({ success: true, imageData: imageData });
+    if (request.action === 'getVideoInfo') {
+        const videoInfo = extractVideoInfo();
+        sendResponse({ success: true, data: videoInfo });
+        return true;
+    }
+    
+    if (request.action === 'extractYouTubeData') {
+        extractYouTubeData()
+            .then(data => {
+                sendResponse({ success: true, data: data });
             })
             .catch(error => {
-                console.error('Screen capture error:', error);
+                console.error('YouTube data extraction error:', error);
                 sendResponse({ success: false, error: error.message });
             });
         return true; // Keep the message channel open for async response
     }
-    if (request.action === 'extractPageText') {
-        // Extract all visible text from the page
-        const bodyText = document.body.innerText || '';
-        sendResponse({ success: true, text: bodyText });
-        return true;
-    }
-    if (request.action === 'extractLeetCodeProblem') {
-        let problemStatement = '';
-        let code = '';
-        // Try multiple selectors for the problem statement
-        const selectors = [
-            '.description__24sA',
-            '.question-content__JfgR',
-            '.content__u3I1.question-content__JfgR',
-            '.description__1bq2',
-            '[data-key="description-content"]',
-            '.question-description',
-            '.content__u3I1',
-            '.css-10o4wqw',
-            '.problem-content',
-            '.content__u3I1',
-            'main .content',
-            'main'
-        ];
-        let descElem = null;
-        for (const sel of selectors) {
-            descElem = document.querySelector(sel);
-            if (descElem && descElem.innerText.trim().length > 50) break;
-        }
-        if (descElem) {
-            problemStatement = descElem.innerText.trim();
-        }
-        // --- New logic: Use all visible text and split at 'Python' ---
-        if (!problemStatement || problemStatement.length < 30) {
-            let main = document.querySelector('main');
-            let allText = '';
-            if (main) {
-                allText = main.innerText || '';
-            } else {
-                allText = document.body.innerText || '';
-            }
-            // Find the first occurrence of 'Python' (case-insensitive)
-            const pythonIdx = allText.search(/python/i);
-            if (pythonIdx > 0) {
-                problemStatement = allText.substring(0, pythonIdx).trim();
-            }
-        }
-        // Try to extract the title and prepend it
-        let title = '';
-        const titleElem = document.querySelector('h4, h3, .css-v3d350, .css-1jyt9hm, .question-title, .css-1l1z6i7');
-        if (titleElem) {
-            title = titleElem.innerText.trim();
-        }
-        if (title && problemStatement && !problemStatement.startsWith(title)) {
-            problemStatement = title + '\n\n' + problemStatement;
-        }
-        // LeetCode code is usually in a textarea or code editor
-        const codeElem = document.querySelector('textarea, .view-lines');
-        if (codeElem) {
-            if (codeElem.tagName.toLowerCase() === 'textarea') {
-                code = codeElem.value.trim();
-            } else {
-                code = Array.from(codeElem.querySelectorAll('div')).map(div => div.innerText).join('\n').trim();
-            }
-        }
-        sendResponse({ success: true, data: { 'problem statement': problemStatement, 'code': code } });
-        return true;
-    }
 });
 
-async function captureScreen() {
+function extractVideoInfo() {
+    const title = document.querySelector('h1.ytd-video-primary-info-renderer, h1.title, .title h1')?.textContent?.trim() || 'Unknown Title';
+    const channel = document.querySelector('#channel-name a, .ytd-channel-name a, .ytd-video-owner-renderer a')?.textContent?.trim() || 'Unknown Channel';
+    const duration = document.querySelector('.ytp-time-duration')?.textContent?.trim() || 'Unknown Duration';
+    
+    return { title, channel, duration };
+}
+
+async function extractYouTubeData() {
+    const videoInfo = extractVideoInfo();
+    const captions = await extractCaptions();
+    
+    return { videoInfo, captions };
+}
+
+async function extractCaptions() {
+    // Method 1: Try to get captions from the YouTube player
+    let captions = await tryGetPlayerCaptions();
+    
+    // Method 2: If no captions found, try to get from transcript panel
+    if (!captions) {
+        captions = await tryGetTranscriptPanel();
+    }
+    
+    // Method 3: Try to get from auto-generated captions
+    if (!captions) {
+        captions = await tryGetAutoCaptions();
+    }
+    
+    if (!captions) {
+        throw new Error('No captions or transcript found for this video. Please enable captions/subtitles on the video.');
+    }
+    
+    return captions;
+}
+
+async function tryGetPlayerCaptions() {
     try {
-        // Request screen capture permission
-        const stream = await navigator.mediaDevices.getDisplayMedia({
-            video: {
-                mediaSource: 'screen',
-                width: { ideal: 1920 },
-                height: { ideal: 1080 }
+        // Look for caption tracks in the video player
+        const video = document.querySelector('video');
+        if (!video) return null;
+        
+        // Check if there are any text tracks
+        if (video.textTracks && video.textTracks.length > 0) {
+            const track = video.textTracks[0];
+            if (track.cues && track.cues.length > 0) {
+                let captions = '';
+                for (let i = 0; i < track.cues.length; i++) {
+                    const cue = track.cues[i];
+                    captions += cue.text + ' ';
+                }
+                return captions.trim();
             }
-        });
+        }
         
-        // Get the first video track
-        const videoTrack = stream.getVideoTracks()[0];
-        
-        // Create a canvas to capture the frame
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Create a video element to receive the stream
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        
-        return new Promise((resolve, reject) => {
-            video.onloadedmetadata = () => {
-                // Set canvas size to match video dimensions
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                
-                // Draw the video frame to canvas
-                ctx.drawImage(video, 0, 0);
-                
-                // Convert canvas to base64 image data
-                const imageData = canvas.toDataURL('image/png');
-                
-                // Stop all tracks to release the stream
-                stream.getTracks().forEach(track => track.stop());
-                
-                resolve(imageData);
-            };
-            
-            video.onerror = (error) => {
-                stream.getTracks().forEach(track => track.stop());
-                reject(new Error('Failed to load video stream'));
-            };
-            
-            // Start playing the video to trigger onloadedmetadata
-            video.play();
-        });
-        
+        return null;
     } catch (error) {
-        throw new Error('Screen capture failed: ' + error.message);
+        console.log('Player captions extraction failed:', error);
+        return null;
+    }
+}
+
+async function tryGetTranscriptPanel() {
+    try {
+        // Click on "Show transcript" button if it exists
+        const transcriptButton = document.querySelector('button[aria-label*="transcript"], button[aria-label*="Transcript"], .ytd-transcript-segment-renderer');
+        if (transcriptButton) {
+            transcriptButton.click();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+        
+        // Look for transcript segments
+        const transcriptSegments = document.querySelectorAll('.ytd-transcript-segment-renderer, .ytd-transcript-body-renderer .segment-text');
+        if (transcriptSegments.length > 0) {
+            let captions = '';
+            transcriptSegments.forEach(segment => {
+                const text = segment.textContent?.trim();
+                if (text) captions += text + ' ';
+            });
+            return captions.trim();
+        }
+        
+        return null;
+    } catch (error) {
+        console.log('Transcript panel extraction failed:', error);
+        return null;
+    }
+}
+
+async function tryGetAutoCaptions() {
+    try {
+        // Try to find auto-generated captions in the page
+        const captionElements = document.querySelectorAll('[data-caption-target], .ytp-caption-segment, .ytp-caption-window-container');
+        if (captionElements.length > 0) {
+            let captions = '';
+            captionElements.forEach(element => {
+                const text = element.textContent?.trim();
+                if (text) captions += text + ' ';
+            });
+            return captions.trim();
+        }
+        
+        return null;
+    } catch (error) {
+        console.log('Auto captions extraction failed:', error);
+        return null;
+    }
+}
+
+// Alternative method: Try to extract from page content if captions are not available
+function extractFromPageContent() {
+    try {
+        // Look for description and comments that might contain content information
+        const description = document.querySelector('#description, .ytd-video-secondary-info-renderer #description')?.textContent?.trim() || '';
+        const comments = Array.from(document.querySelectorAll('.ytd-comment-thread-renderer .ytd-expander')).slice(0, 5).map(el => el.textContent?.trim()).join(' ');
+        
+        return (description + ' ' + comments).trim();
+    } catch (error) {
+        console.log('Page content extraction failed:', error);
+        return '';
     }
 } 

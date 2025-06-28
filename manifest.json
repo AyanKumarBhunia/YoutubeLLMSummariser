@@ -1,23 +1,26 @@
 {
   "manifest_version": 3,
-  "name": "LeetCodeLLMMentor",
+  "name": "YouTube Summarizer",
   "version": "1.0",
-  "description": "Analyze your LeetCode problems and get relevant background knowledge.",
+  "description": "Extract YouTube video captions and generate AI-powered summaries",
   "permissions": [
     "activeTab",
-    "desktopCapture",
-    "storage"
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*"
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "LeetCodeLLMMentor"
+    "default_title": "YouTube Summarizer"
   },
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://www.youtube.com/*"],
       "js": ["content.js"]
     }
   ],

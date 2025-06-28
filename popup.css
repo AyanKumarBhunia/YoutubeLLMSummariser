@@ -6,7 +6,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
     color: #333;
     min-height: 100vh;
 }
@@ -22,7 +22,7 @@ body {
 }
 
 .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
     color: white;
     padding: 32px 24px 24px 24px;
     text-align: center;
@@ -45,8 +45,8 @@ body {
     text-align: center;
 }
 
-.leetcode-btn {
-    background: linear-gradient(135deg, #2196f3 0%, #1e88e5 100%);
+.youtube-btn {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
     color: white;
     border: none;
     padding: 18px 36px;
@@ -61,17 +61,49 @@ body {
     margin: 0 auto;
 }
 
-.leetcode-btn:hover {
+.youtube-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
 }
 
-.leetcode-btn:active {
+.youtube-btn:active {
     transform: translateY(0);
+}
+
+.youtube-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .btn-icon {
     font-size: 24px;
+}
+
+.video-info {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px;
+    border-left: 4px solid #ff0000;
+}
+
+.video-info h3 {
+    color: #333;
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.video-info p {
+    margin: 8px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.video-info strong {
+    color: #333;
 }
 
 .result {
@@ -328,7 +360,7 @@ body {
     .header h1 {
         font-size: 22px;
     }
-    .leetcode-btn {
+    .youtube-btn {
         font-size: 16px;
         padding: 12px 10px;
     }

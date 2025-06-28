@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeetCodeLLMMentor</title>
+    <title>YouTube Summarizer</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 LeetCodeLLMMentor</h1>
-            <p>Analyze your LeetCode problems and get relevant background knowledge</p>
+            <h1>📺 YouTube Summarizer</h1>
+            <p>Extract captions and generate AI-powered summaries</p>
         </div>
         <div class="controls">
-            <button id="extractLeetCodeBtn" class="leetcode-btn">
-                <span class="btn-icon">🔍</span>
-                Analyse Your Solution
+            <button id="extractYouTubeBtn" class="youtube-btn">
+                <span class="btn-icon">🎬</span>
+                Extract & Summarize
             </button>
+        </div>
+        <div id="videoInfo" class="video-info hidden">
+            <h3>Video Information</h3>
+            <div id="videoDetails"></div>
         </div>
         <div id="outputArea" class="output-area hidden"></div>
         <div id="loading" class="loading hidden">
             <div class="spinner"></div>
-            <p>Processing...</p>
+            <p>Processing video...</p>
         </div>
         <div id="error" class="error hidden">
             <p>❌ Something went wrong. Please try again.</p>

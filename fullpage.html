@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeetCodeLLMMentor - Full Page</title>
+    <title>YouTube Summarizer - Full Page</title>
     <link rel="stylesheet" href="popup.css">
     <style>
         body, html {
@@ -11,7 +11,7 @@
             height: 100vh;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
         }
         .container {
             width: 100vw !important;
@@ -25,24 +25,43 @@
             width: 98%;
             font-size: 22px;
         }
+        .video-header {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px;
+            border-left: 4px solid #ff0000;
+        }
+        .video-header h2 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .video-header p {
+            margin: 8px 0;
+            color: #666;
+            font-size: 16px;
+        }
+        .video-header strong {
+            color: #333;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 LeetCodeLLMMentor</h1>
-            <p>Analyze your LeetCode problems and get relevant background knowledge</p>
+            <h1>📺 YouTube Summarizer</h1>
+            <p>AI-powered video summaries and insights</p>
         </div>
-        <div class="controls">
-            <button id="extractLeetCodeBtn" class="leetcode-btn">
-                <span class="btn-icon">🔍</span>
-                Analyse Your Solution
-            </button>
+        <div id="videoHeader" class="video-header hidden">
+            <h2>Video Information</h2>
+            <div id="videoDetails"></div>
         </div>
         <div id="outputArea" class="output-area hidden"></div>
         <div id="loading" class="loading hidden">
             <div class="spinner"></div>
-            <p>Processing...</p>
+            <p>Generating summary...</p>
         </div>
         <div id="error" class="error hidden">
             <p>❌ Something went wrong. Please try again.</p>

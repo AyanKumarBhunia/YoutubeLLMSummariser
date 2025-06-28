@@ -7,12 +7,8 @@ CORS(app)
 
 @app.route('/ollama', methods=['POST'])
 def proxy():
-    ollama_response = requests.post(
-        'http://localhost:11434/api/generate',
-        json=request.json,
-        headers={'Content-Type': 'application/json'}
-    )
-    return Response(ollama_response.content, status=ollama_response.status_code, content_type=ollama_response.headers['Content-Type'])
+    r = requests.post('http://localhost:11434/api/generate', json=request.json)
+    return Response(r.content, status=r.status_code, content_type=r.headers['Content-Type'])
 
 if __name__ == '__main__':
     app.run(port=3002) 
