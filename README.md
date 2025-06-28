@@ -1,3 +1,5 @@
+![YouTube Summarizer](image.png)
+
 # YouTube Summarizer Chrome Extension
 
 A Chrome extension that extracts YouTube video captions/subtitles and generates AI-powered summaries using Ollama.
